@@ -5,3 +5,5 @@
 <h3>Testing the 3rd commit with changing username and email on GiT</h3>
 
 <p>added by hanafiah</p>
+
+<p> this is the new line by faizfizy to test confilct</p>
