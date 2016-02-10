@@ -35,7 +35,7 @@ class MY_Model extends CI_Model {
     }
     
     public function save() {
-        if (isset($this->{this::DB_TABLE_PK})) {
+        if (isset($this->{$this::DB_TABLE_PK})) {
             $this->update();
         }
         else {
