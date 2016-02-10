@@ -16,7 +16,7 @@ class MY_Model extends CI_Model {
     
     public function populate($row) {
         foreach ($row as $key => $value) {
-            $this->$key = value;
+            $this->$key = $value;
         }
     }
     
