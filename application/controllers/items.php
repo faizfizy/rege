@@ -7,23 +7,13 @@ class Items extends CI_Controller {
         
         //$this->load->model('User');
         //$user = new User();
-        //$user->load(1);
-        //$data['user'] = $user;
-        
-        //$this->load->model('Shop');
-        //$shop = new Shop();
-        //$shop->load(1);
-        //$data['shop'] = $shop;
+        //$user->
         
         $this->load->model('Item');        
         $item = new Item();
         $item->load(1);
         $data['item'] = $item;
-        
-        //$this->Item->name = 'Nama Itema';
-        //$this->Item->save();
-        //echo '<tt><pre>' . var_export($this->Item, TRUE) . '</pre></tt>';
-        
+
         $this->load->model('Price');
         $price = new Price();
         $price->load(1);
@@ -32,10 +22,18 @@ class Items extends CI_Controller {
         //$this->load->model('Shop');
         $this->load->view('items');
         $this->load->view('item', $data);
-        
     }
     
     public function add() {
+        
+        
+        $this->load->model('Shop');
+        $shops = $this->Shop->get();
+        $shop_dropdown = array();
+        foreach ($shops as $id => $shop) {
+            $shop_dropdown[$id] = $shop->name;
+        }
+        
         
         $this->load->model('Item');
         $items = $this->Item->get();
@@ -48,7 +46,7 @@ class Items extends CI_Controller {
         $this->load->library('form_validation');
         $this->form_validation->set_rules(array(
             array(
-                'field' => 'id',
+                'field' => 'item',
                 'label' => 'Item',
                 'rules' => 'required'
             ),
@@ -58,7 +56,7 @@ class Items extends CI_Controller {
                 'rules' => 'required|is_numeric'
             ),
             array(
-                'field' => 'price_date',
+                'field' => 'date',
                 'label' => 'Price date',
                 'rules' => 'required|callback_date_validation'
             )
@@ -67,11 +65,22 @@ class Items extends CI_Controller {
         $this->form_validation->set_error_delimiters('<div class="alert alert-error">', '</div>');
         if (!$this->form_validation->run()) {
             $this->load->view('item_form', array(
-                'item_form_options' => $item_form_options
+                'item_form_options' => $item_form_options,
+                'shop_dropdown' => $shop_dropdown
             ));
         }
         else {
-            $this->load->view('item_form_success');
+            $this->load->model('Price');
+            $price = new Price();
+            $price->user_id = 1; // Preset for testing purpose
+            $price->shop_id = 1;
+            $price->item_id = 1;
+            $price->price = $this->input->post('price');
+            $price->date = $this->input->post('date');
+            $price->save();
+            $this->load->view('item_form_success', array(
+                'item' => $item
+            ));
         }
     }
     
