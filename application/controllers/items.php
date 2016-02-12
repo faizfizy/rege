@@ -5,11 +5,11 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 class Items extends CI_Controller {
 
     public function index() {
+        $this->load->view('bootstrap/header'); //bs test
         $this->load->library('table');
 
         $this->load->model('Item');
         $items = $this->Item->get();
-
         $item_list = array();
         foreach ($items as $id => $item) {
             $item_list[] = array(
@@ -20,10 +20,12 @@ class Items extends CI_Controller {
         $this->load->view('items', array(
             'item_list' => $item_list
         ));
+        $this->load->view('bootstrap/header'); //bs test
     }
 
     public function add() {
-
+        
+        $this->load->view('bootstrap/header');
         $this->load->helper('form');
 
         $this->load->model('Shop');
@@ -79,6 +81,7 @@ class Items extends CI_Controller {
                 'item' => $item
             ));
         }
+        $this->load->view('bootstrap/footer');
     }
 
     public function date_validation($input) {
