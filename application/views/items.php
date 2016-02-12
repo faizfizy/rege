@@ -3,5 +3,3 @@
 $this->table->set_heading('Items');
 echo $this->table->generate($item_list);
 ?>
-
-        
