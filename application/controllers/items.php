@@ -147,7 +147,15 @@ class Items extends CI_Controller {
                 );
             }
         }
-        //echo "<pre>";print_r($shop_list[1][0]);die;
+        
+        //copy paste from SO - to remove older reocord of price while maintaing in db
+        $newArr = array();
+        foreach ($price_list as $val) {
+            $newArr[$val[0]] = $val;
+        }
+        $price_list = array_values($newArr);
+        
+        //echo "<pre>";$v = $array;print_r($v);echo gettype($v);die;
 
         $this->load->view('item', array(
             'item' => $item,
