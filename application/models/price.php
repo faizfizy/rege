@@ -7,8 +7,7 @@ class Price extends MY_Model {
     
     public $id;
     public $price;
-    public $date;
-    public $time;
+    public $datetime;
     public $shop_id;
     public $user_id;
     public $item_id;

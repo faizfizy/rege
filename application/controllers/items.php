@@ -25,7 +25,7 @@ class Items extends CI_Controller {
 
     public function add() {
         
-        //$this->load->view('bootstrap/header'); //bs
+        $this->load->view('bootstrap/header'); //bs
         $this->load->helper('form');
         
         $this->load->model('Shop');
@@ -34,7 +34,8 @@ class Items extends CI_Controller {
         foreach ($shops as $id => $shop) {
             $shop_dropdown[$id] = $shop->name;
         }
-
+        
+        //echo "<pre>";print_r($shop_dropdown);die;
         $this->load->library('form_validation');
         $this->form_validation->set_rules(array(
             array(
@@ -47,11 +48,11 @@ class Items extends CI_Controller {
                 'label' => 'Price',
                 'rules' => 'required|is_numeric'
             ),
-            array(
-                'field' => 'date',
-                'label' => 'Price date',
-                'rules' => 'required|callback_date_validation'
-            )
+            //array(
+            //    'field' => 'datetime',
+            //    'label' => 'Price date',
+            //    'rules' => 'required|callback_date_validation'
+            //)
         ));
 
         $this->form_validation->set_error_delimiters('<div class="alert alert-error">', '</div>');
@@ -64,11 +65,12 @@ class Items extends CI_Controller {
             
             $price = new Price();
             $item = new Item();
-            //$shop = new Shop(); //loaded at top
            
             //table item
             $item->brand = $this->input->post('brand');
             $item->name = $this->input->post('name');
+            $item->qty = $this->input->post('qty');
+            $item->unit = $this->input->post('unit');
             
             $item->save();
             
@@ -77,7 +79,7 @@ class Items extends CI_Controller {
             $price->item_id = $this->db->insert_id(); // Can't brain the logic %$#@!
             $price->shop_id = $this->input->post('shop');; //Same
             $price->price = $this->input->post('price');
-            $price->date = $this->input->post('date');
+            $price->datetime = date('Y-m-d H:i:s');
             
             $price->save(); 
             
@@ -85,15 +87,15 @@ class Items extends CI_Controller {
                 'item' => $item
             ));
         }
-        //$this->load->view('bootstrap/footer'); //bs
+        $this->load->view('bootstrap/footer'); //bs
     }
 
     public function date_validation($input) {
-        $test_date = explode('-', $input);
-        if (!@checkdate($test_date[1], $test_date[2], $test_date[0])) {
-            $this->form_validation->set_message('date_validation', 'The %s must be in YYYY-MM-DD format.');
-            return FALSE;
-        }
+        //$test_date = explode('-', $input);
+        //if (!@checkdate($test_date[1], $test_date[2], $test_date[0])) {
+        //    $this->form_validation->set_message('date_validation', 'The %s must be in YYYY-MM-DD format.');
+        //   return FALSE;
+        //}
         return TRUE;
     }
 
