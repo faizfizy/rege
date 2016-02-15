@@ -1,9 +1,14 @@
 <div class="item">
-    <div class="price">     
+    <div class="title">     
+        <?php echo html_escape($item->brand); ?>
+        <br />
         <?php echo html_escape($item->name); ?>
-        RM<?php echo html_escape($price->price); ?>
+        <?php echo html_escape("(" . $item->qty . "" . $item->unit . ")"); ?>
     </div>
-    <div class="datetime">
-        <?php echo html_escape($price->datetime); ?>
+    <div class="content">
+        <?php
+        $this->table->set_heading('Shop', 'Price', 'Last Updated', 'Contributed by', 'Action');
+        echo $this->table->generate($price_list);
+        ?>
     </div>
 </div>
