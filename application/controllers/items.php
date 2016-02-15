@@ -80,8 +80,7 @@ class Items extends CI_Controller {
             //table price
             $price->user_id = 1; // Preset for testing purpose
             $price->item_id = $this->db->insert_id(); // Can't brain the logic %$#@!
-            $price->shop_id = $this->input->post('shop');
-            ; //Same
+            $price->shop_id = $this->input->post('shop'); //Same
             $price->price = $this->input->post('price');
             $price->datetime = date('Y-m-d H:i:s');
 
@@ -157,7 +156,7 @@ class Items extends CI_Controller {
     }
 
     public function delete($i_id, $p_id, $s_name) {
-        
+
         $this->load->model(array('Price', 'Item'));
         $price = new Price();
         $price->load($p_id);
@@ -165,15 +164,114 @@ class Items extends CI_Controller {
 
         $item = new Item();
         $item->load($i_id);
-        
+
 
         $this->load->view('item_deleted', array(
             'item' => $item,
             's_name' => $s_name
         ));
     }
-    
-    
+
+    public function update($i_id, $p_id, $s_name) {
+        $this->load->helper('form');
+        $this->load->helper('url');
+        $this->load->model(array('Price', 'Item'));
+
+        $item = new Item();
+        $item->load($i_id);
+
+        $price = new Price();
+
+
+        $this->load->library('form_validation');
+        $this->form_validation->set_rules(array(
+            //array(
+            //    'field' => 'name',
+            //    'label' => 'Item Name',
+            //    'rules' => 'required'
+            //),
+            array(
+                'field' => 'price',
+                'label' => 'Price',
+                'rules' => 'required|is_numeric'
+            ),
+        ));
+
+        $this->form_validation->set_error_delimiters('<div class="alert alert-error">', '</div>');
+
+        if (!$this->form_validation->run()) {
+            $this->load->view('price_update', array(
+                'item' => $item,
+                's_name' => $s_name
+                    //'shop_dropdown' => $shop_dropdown
+            ));
+        } else {
+
+            $price->load($p_id);
+
+            $price->price = $this->input->post('price');
+            $price->datetime = date('Y-m-d H:i:s');
+            $price->save();
+
+            $this->load->view('price_updated', array(
+                'item' => $item,
+                's_name' => $s_name
+            ));
+        }
+    }
+
+    public function add_price($i_id) {
+        $this->load->helper('form');
+        $this->load->helper('url');
+
+        $this->load->model(array('Price', 'Item', 'Shop'));
+
+        $shops = $this->Shop->get();
+        $shop_dropdown = array();
+        foreach ($shops as $id => $shop) {
+            $shop_dropdown[$id] = $shop->name;
+        }
+
+        $item = new Item();
+        $item->load($i_id);
+
+        $this->load->library('form_validation');
+        $this->form_validation->set_rules(array(
+            //array(
+            //    'field' => 'name',
+            //    'label' => 'Item Name',
+            //    'rules' => 'required'
+            //),
+            array(
+                'field' => 'price',
+                'label' => 'Price',
+                'rules' => 'required|is_numeric'
+            ),
+        ));
+
+        $this->form_validation->set_error_delimiters('<div class="alert alert-error">', '</div>');
+
+        if (!$this->form_validation->run()) {
+            $this->load->view('price_add', array(
+                'item' => $item,
+                'shop_dropdown' => $shop_dropdown
+            ));
+        } else {
+
+            $price = new Price();
+            $price->user_id = 1; //preset test
+            $price->item_id = $i_id;
+            $price->shop_id = $this->input->post('shop');
+            $price->price = $this->input->post('price');
+            $price->datetime = date('Y-m-d H:i:s');
+            $price->save();
+
+            $this->load->view('price_added', array(
+                'item' => $item,
+                'shop' => $shop
+            ));
+        }
+    }
 
 }
 

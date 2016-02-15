@@ -11,4 +11,7 @@
         echo $this->table->generate($price_list);
         ?>
     </div>
+    <div>
+        <?php echo anchor('items/add_price/' . $item->id, 'Add Price at Different Shop'); ?>
+    </div>
 </div>
