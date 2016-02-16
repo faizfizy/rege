@@ -37,7 +37,7 @@ class login extends CI_Controller {
                 if ($usr_result > 0) { //active user record is present
                     //set the session variables
                     $sessiondata = array(
-                        'username' => $username,
+                        'fname' => $username,
                         'loginuser' => TRUE
                     );
                     $this->session->set_userdata($sessiondata);

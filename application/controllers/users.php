@@ -73,6 +73,13 @@ class Users extends CI_Controller {
         //   return FALSE;
         //}
         return TRUE;
+        }
+
+        public function logout() {
+            
+        $this->load->library('session');
+        $this->session->sess_destroy();
+        header("location:../index.php");
     }
 
 }

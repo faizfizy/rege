@@ -27,6 +27,8 @@ class Items extends CI_Controller {
     }
 
     public function add() {
+        
+        include '_checksession.php';
 
         $this->load->view('bootstrap/header'); //bs
         $this->load->helper('form');
@@ -108,7 +110,8 @@ class Items extends CI_Controller {
         $this->load->library('table');
 
         $this->load->model(array('Price', 'Item', 'Shop', 'User'));
-
+        //$lists = $this->Price->get_price_details($id);
+        //echo '<pre>';print_r($lists);exit;
         $item = new Item();
         $item->load($id);
 
@@ -147,14 +150,14 @@ class Items extends CI_Controller {
                 );
             }
         }
-        
+
         //copy paste from SO - to remove older reocord of price while maintaing in db
         $newArr = array();
         foreach ($price_list as $val) {
             $newArr[$val[0]] = $val;
         }
         $price_list = array_values($newArr);
-        
+
         //echo "<pre>";$v = $array;print_r($v);echo gettype($v);die;
 
         $this->load->view('item', array(
@@ -164,6 +167,8 @@ class Items extends CI_Controller {
     }
 
     public function delete($i_id, $p_id, $s_name) {
+        
+        include '_checksession.php';
 
         $this->load->model(array('Price', 'Item'));
         $price = new Price();
@@ -181,6 +186,9 @@ class Items extends CI_Controller {
     }
 
     public function update($i_id, $p_id, $s_name) {
+        
+        include '_checksession.php';
+        
         $this->load->helper('form');
         $this->load->helper('url');
         $this->load->model(array('Price', 'Item'));
@@ -229,6 +237,9 @@ class Items extends CI_Controller {
     }
 
     public function add_price($i_id) {
+
+        include '_checksession.php';
+
         $this->load->helper('form');
         $this->load->helper('url');
 
@@ -273,6 +284,10 @@ class Items extends CI_Controller {
             $price->price = $this->input->post('price');
             $price->datetime = date('Y-m-d H:i:s');
             $price->save();
+
+            $shop = new Shop();
+            $shop->load($price->shop_id);
+            //echo "<pre>";$v = $s;print_r($v);echo gettype($v);die;
 
             $this->load->view('price_added', array(
                 'item' => $item,
