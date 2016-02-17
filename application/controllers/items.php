@@ -5,8 +5,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 class Items extends CI_Controller {
 
     public function index() {
-        $this->load->helper('url');
-
         //$this->load->view('bootstrap/header'); //bs test
         $this->load->library('table');
 
@@ -29,8 +27,6 @@ class Items extends CI_Controller {
     public function add() {
 
         include '_checksession.php';
-
-        $this->load->helper('url');
         $this->load->helper('form');
 
         $this->load->model('Shop');
@@ -105,7 +101,6 @@ class Items extends CI_Controller {
 
     public function view($id) {
         $this->load->helper('html');
-        $this->load->helper('url');
         $this->load->library('table');
 
         $this->load->model(array('Price', 'Item', 'Shop', 'User'));
@@ -145,7 +140,8 @@ class Items extends CI_Controller {
                     $price->datetime,
                     $user_list[($price->user_id) - 1][0],
                     anchor('items/update/' . $item->id . '/' . $price->id . '/' . $shop_list[($price->shop_id) - 1][0], 'Change Price') . " | " .
-                    anchor('items/delete/' . $item->id . '/' . $price->id . '/' . $shop_list[($price->shop_id) - 1][0], 'Delete Price')
+                    anchor('items/history/' . $item->id . '/' . $shop_list[($price->shop_id) - 1][0], 'View History')
+                        //anchor('items/delete/' . $item->id . '/' . $price->id . '/' . $shop_list[($price->shop_id) - 1][0], 'Delete Price')
                 );
             }
         }
@@ -189,7 +185,6 @@ class Items extends CI_Controller {
         include '_checksession.php';
 
         $this->load->helper('form');
-        $this->load->helper('url');
         $this->load->model(array('Price', 'Item'));
 
         $item = new Item();
@@ -240,7 +235,6 @@ class Items extends CI_Controller {
         include '_checksession.php';
 
         $this->load->helper('form');
-        $this->load->helper('url');
 
         $this->load->model(array('Price', 'Item', 'Shop'));
 
@@ -293,6 +287,50 @@ class Items extends CI_Controller {
                 'shop' => $shop
             ));
         }
+    }
+
+    public function history($i_id, $s_name) {
+
+        $this->load->helper('html');
+        $this->load->library('table');
+
+        $this->load->model(array('Price', 'Item', 'User', 'Shop'));
+
+        $user = new User();
+        $users = $this->User->get();
+        $user_list = array();
+        foreach ($users as $u_id => $user) {
+            $user_list[] = array(
+                $user->fname,
+            );
+        }
+
+        $item = new Item();
+        $item->load($i_id);
+        
+        $prices = $this->Price->get_history($i_id, $s_name);
+        
+        
+        $shop = new Shop();
+        $shop->load($prices[0]->shop_id);
+        //echo '<pre>';print_r($shop);exit;
+
+        $price_list = array();
+        foreach ($prices as $p_id => $price) {
+            $price_list[] = array(
+                $price->datetime,
+                $price->price,
+                $user_list[($price->user_id) - 1][0],
+                anchor('items/delete/' . $item->id . '/' . $price->id . '/' . $price->name, 'Delete Price')
+            );
+        }
+        //echo "<pre>";$v = $array;print_r($v);echo gettype($v);die;
+
+        $this->load->view('history', array(
+            'item' => $item,
+            'shop' => $shop,
+            'price_list' => $price_list
+        ));
     }
 
 }

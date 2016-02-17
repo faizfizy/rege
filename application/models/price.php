@@ -18,6 +18,11 @@ class Price extends MY_Model {
         return $query->result();
     }
     
+    public function get_history($item_id, $shop_name){
+        $sql = 'SELECT a.*,b.name FROM price a INNER JOIN shop b ON a.shop_id=b.id WHERE a.item_id=? AND b.name = ?';
+        $query = $this->db->query($sql,array($item_id,$shop_name));
+        return $query->result();
+    }
 }
 
 ?>
