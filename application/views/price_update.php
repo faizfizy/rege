@@ -50,6 +50,7 @@
                         <?php echo form_label('Shop: ', 'shop', $class_label); ?>
                         <div class="col-lg-6">
                             <?php echo form_label($s_name, 'shop_name', $class_input); ?>
+                            <?php echo form_hidden('shop', $s_name, $class_input); ?>
                         </div>
                     </div>
                     <div class="form-group">

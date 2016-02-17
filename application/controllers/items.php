@@ -141,7 +141,6 @@ class Items extends CI_Controller {
                     $user_list[($price->user_id) - 1][0],
                     anchor('items/update/' . $item->id . '/' . $price->id . '/' . $shop_list[($price->shop_id) - 1][0], 'Change Price') . " | " .
                     anchor('items/history/' . $item->id . '/' . $shop_list[($price->shop_id) - 1][0], 'View History')
-                        //anchor('items/delete/' . $item->id . '/' . $price->id . '/' . $shop_list[($price->shop_id) - 1][0], 'Delete Price')
                 );
             }
         }
@@ -218,9 +217,15 @@ class Items extends CI_Controller {
         } else {
 
             $price->load($p_id);
+            $shop_id = $price->shop_id;
+            $price = new Price();
+            //echo "<pre>";$v = $price;print_r($v);echo gettype($v);die;
 
             $price->price = $this->input->post('price');
             $price->datetime = date('Y-m-d H:i:s');
+            $price->shop_id = $shop_id;
+            $price->user_id = 1;
+            $price->item_id = $i_id;
             $price->save();
 
             $this->load->view('price_updated', array(
@@ -307,10 +312,10 @@ class Items extends CI_Controller {
 
         $item = new Item();
         $item->load($i_id);
-        
+
         $prices = $this->Price->get_history($i_id, $s_name);
-        
-        
+
+
         $shop = new Shop();
         $shop->load($prices[0]->shop_id);
         //echo '<pre>';print_r($shop);exit;
