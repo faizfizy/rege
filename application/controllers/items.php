@@ -27,10 +27,10 @@ class Items extends CI_Controller {
     }
 
     public function add() {
-        
+
         include '_checksession.php';
 
-        $this->load->view('bootstrap/header'); //bs
+        $this->load->helper('url');
         $this->load->helper('form');
 
         $this->load->model('Shop');
@@ -92,7 +92,6 @@ class Items extends CI_Controller {
                 'item' => $item
             ));
         }
-        $this->load->view('bootstrap/footer'); //bs
     }
 
     public function date_validation($input) {
@@ -167,7 +166,7 @@ class Items extends CI_Controller {
     }
 
     public function delete($i_id, $p_id, $s_name) {
-        
+
         include '_checksession.php';
 
         $this->load->model(array('Price', 'Item'));
@@ -186,9 +185,9 @@ class Items extends CI_Controller {
     }
 
     public function update($i_id, $p_id, $s_name) {
-        
+
         include '_checksession.php';
-        
+
         $this->load->helper('form');
         $this->load->helper('url');
         $this->load->model(array('Price', 'Item'));
@@ -295,8 +294,6 @@ class Items extends CI_Controller {
             ));
         }
     }
-    
-    
 
 }
 

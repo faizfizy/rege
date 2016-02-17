@@ -5,9 +5,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 class Users extends CI_Controller {
 
     public function register() {
-
-        $this->load->view('bootstrap/header'); //bs
         $this->load->helper('form');
+        $this->load->helper('url');
 
         $this->load->model('User');
         $shops = $this->User->get();
@@ -63,7 +62,6 @@ class Users extends CI_Controller {
                     //'item' => $item
             ));
         }
-        $this->load->view('bootstrap/footer'); //bs
     }
 
     public function date_validation($input) {
@@ -73,10 +71,10 @@ class Users extends CI_Controller {
         //   return FALSE;
         //}
         return TRUE;
-        }
+    }
 
-        public function logout() {
-            
+    public function logout() {
+
         $this->load->library('session');
         $this->session->sess_destroy();
         header("location:../index.php");

@@ -1,12 +1,15 @@
 <!DOCTYPE html>
-<?php echo validation_errors(); ?>
-
-<html>
-    <head>
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>CodeIgniter User Registration Form Demo</title>
-        <link href="<?php //echo base_url("bootstrap/css/bootstrap.css");  ?>" rel="stylesheet" type="text/css" />
+<html lang="en">
+    <head>	
+        <link rel="stylesheet" href="<?= base_url(); ?>css/bootstrap.css">
+        <script src="<?= base_url(); ?>js/jquery.js"></script>
+        <script src="<?= base_url(); ?>js/bootstrap.min.js"></script>
     </head>
+
+    <?php
+    include('bootstrap/navbar.php');
+    ?>
+    
     <body>
         <div class="container">
             <div class="row">
@@ -61,7 +64,7 @@
                                 <button name="cancel" type="reset" class="btn btn-default">Cancel</button>
                             </div>
                             <?php echo form_close(); ?>
-<?php //echo $this->session->flashdata('msg');  ?>
+                            <?php //echo $this->session->flashdata('msg');  ?>
                         </div>
                     </div>
                 </div>
