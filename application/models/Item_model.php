@@ -1,6 +1,6 @@
 <?php
 
-class Item extends MY_Model {
+class Item_model extends MY_Model {
     
     const DB_TABLE = 'item';
     const DB_TABLE_PK = 'id';

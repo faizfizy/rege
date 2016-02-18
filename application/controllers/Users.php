@@ -8,8 +8,8 @@ class Users extends CI_Controller {
         $this->load->helper('form');
         $this->load->helper('url');
 
-        $this->load->model('User');
-        $shops = $this->User->get();
+        $this->load->model('user_model');
+        $shops = $this->user_model->get();
 
         $this->load->library('form_validation');
 
@@ -47,9 +47,9 @@ class Users extends CI_Controller {
                     //'shop_dropdown' => $shop_dropdown
             ));
         } else { //magic happens
-            $this->load->model(array('User'));
+            $this->load->model(array('user_model'));
 
-            $user = new User();
+            $user = new User_model();
 
             $user->fname = $this->input->post('fname');
             $user->lname = $this->input->post('lname');

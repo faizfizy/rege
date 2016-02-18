@@ -5,32 +5,32 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 class Items extends CI_Controller {
 
     public function index() {
-        //$this->load->view('bootstrap/header'); //bs test
         $this->load->library('table');
 
-        $this->load->model('Item');
-        $items = $this->Item->get();
+        $this->load->model('item_model');
+        $items = $this->item_model->get();
+
         $item_list = array();
         foreach ($items as $id => $item) {
             $item_list[] = array(
-                $item->brand . " " . $item->name,
+                $item->brand . " " . $item->name . " (" . $item->qty . " " . $item->unit . ")",
                 anchor('items/view/' . $item->id, 'View Prices')
             );
         }
-        //echo "<pre>";print_r($item_list);die;
+
         $this->load->view('items', array(
             'item_list' => $item_list
         ));
-        //$this->load->view('bootstrap/header'); //bs test
     }
 
     public function add() {
 
         include '_checksession.php';
+
         $this->load->helper('form');
 
-        $this->load->model('Shop');
-        $shops = $this->Shop->get();
+        $this->load->model('shop_model');
+        $shops = $this->shop_model->get();
         $shop_dropdown = array();
         foreach ($shops as $id => $shop) {
             $shop_dropdown[$id] = $shop->name;
@@ -62,10 +62,10 @@ class Items extends CI_Controller {
                 'shop_dropdown' => $shop_dropdown
             ));
         } else { //magic happens
-            $this->load->model(array('Price', 'Item'));
+            $this->load->model(array('price_model', 'item_model'));
 
-            $price = new Price();
-            $item = new Item();
+            $price = new Price_model();
+            $item = new Item_model();
 
             //table item
             $item->brand = $this->input->post('brand');
@@ -103,14 +103,14 @@ class Items extends CI_Controller {
         $this->load->helper('html');
         $this->load->library('table');
 
-        $this->load->model(array('Price', 'Item', 'Shop', 'User'));
+        $this->load->model(array('price_model', 'item_model', 'shop_model', 'user_model'));
         //$lists = $this->Price->get_price_details($id);
         //echo '<pre>';print_r($lists);exit;
-        $item = new Item();
+        $item = new Item_model();
         $item->load($id);
 
-        $shop = new Shop();
-        $shops = $this->Shop->get();
+        $shop = new Shop_model();
+        $shops = $this->shop_model->get();
         $shop_list = array();
         foreach ($shops as $s_id => $shop) {
             $shop_list[] = array(
@@ -118,8 +118,8 @@ class Items extends CI_Controller {
             );
         }
 
-        $user = new User();
-        $users = $this->User->get();
+        $user = new User_model();
+        $users = $this->user_model->get();
         $user_list = array();
         foreach ($users as $u_id => $user) {
             $user_list[] = array(
@@ -127,8 +127,8 @@ class Items extends CI_Controller {
             );
         }
 
-        $price = new Price();
-        $prices = $this->Price->get();
+        $price = new Price_model();
+        $prices = $this->price_model->get();
 
         $price_list = array();
         foreach ($prices as $p_id => $price) {
@@ -164,12 +164,12 @@ class Items extends CI_Controller {
 
         include '_checksession.php';
 
-        $this->load->model(array('Price', 'Item'));
-        $price = new Price();
+        $this->load->model(array('price_model', 'item_model'));
+        $price = new Price_model();
         $price->load($p_id);
         $price->delete();
 
-        $item = new Item();
+        $item = new Item_model();
         $item->load($i_id);
 
 
@@ -184,12 +184,12 @@ class Items extends CI_Controller {
         include '_checksession.php';
 
         $this->load->helper('form');
-        $this->load->model(array('Price', 'Item'));
+        $this->load->model(array('price_model', 'item_model'));
 
-        $item = new Item();
+        $item = new Item_model();
         $item->load($i_id);
 
-        $price = new Price();
+        $price = new Price_model();
 
 
         $this->load->library('form_validation');
@@ -218,7 +218,7 @@ class Items extends CI_Controller {
 
             $price->load($p_id);
             $shop_id = $price->shop_id;
-            $price = new Price();
+            $price = new Price_model();
             //echo "<pre>";$v = $price;print_r($v);echo gettype($v);die;
 
             $price->price = $this->input->post('price');
@@ -241,15 +241,15 @@ class Items extends CI_Controller {
 
         $this->load->helper('form');
 
-        $this->load->model(array('Price', 'Item', 'Shop'));
+        $this->load->model(array('price_model', 'item_model', 'shop_model'));
 
-        $shops = $this->Shop->get();
+        $shops = $this->shop_model->get();
         $shop_dropdown = array();
         foreach ($shops as $id => $shop) {
             $shop_dropdown[$id] = $shop->name;
         }
 
-        $item = new Item();
+        $item = new Item_model();
         $item->load($i_id);
 
         $this->load->library('form_validation');
@@ -275,7 +275,7 @@ class Items extends CI_Controller {
             ));
         } else {
 
-            $price = new Price();
+            $price = new Price_model();
             $price->user_id = 1; //preset test
             $price->item_id = $i_id;
             $price->shop_id = $this->input->post('shop');
@@ -283,7 +283,7 @@ class Items extends CI_Controller {
             $price->datetime = date('Y-m-d H:i:s');
             $price->save();
 
-            $shop = new Shop();
+            $shop = new Shop_model();
             $shop->load($price->shop_id);
             //echo "<pre>";$v = $s;print_r($v);echo gettype($v);die;
 
@@ -299,10 +299,10 @@ class Items extends CI_Controller {
         $this->load->helper('html');
         $this->load->library('table');
 
-        $this->load->model(array('Price', 'Item', 'User', 'Shop'));
+        $this->load->model(array('price_model', 'item_model', 'user_model', 'shop_model'));
 
-        $user = new User();
-        $users = $this->User->get();
+        $user = new User_model();
+        $users = $this->user_model->get();
         $user_list = array();
         foreach ($users as $u_id => $user) {
             $user_list[] = array(
@@ -310,13 +310,13 @@ class Items extends CI_Controller {
             );
         }
 
-        $item = new Item();
+        $item = new Item_model();
         $item->load($i_id);
 
-        $prices = $this->Price->get_history($i_id, $s_name);
+        $prices = $this->price_model->get_history($i_id, $s_name);
 
 
-        $shop = new Shop();
+        $shop = new Shop_model();
         $shop->load($prices[0]->shop_id);
         //echo '<pre>';print_r($shop);exit;
 

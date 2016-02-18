@@ -15,8 +15,18 @@
             <ul class="nav navbar-nav navbar-right">
                 <li><a href="<?= base_url(); ?> ">HOME</a></li>
                 <li><a href="<?= base_url(); ?>items/add">ADD ITEM</a></li>
-                <li><a href="<?= base_url(); ?>login">LOG IN</a></li>
-                <li><a href="<?= base_url(); ?>users/register">SIGN UP</a></li>
+                <?php
+                $this->load->library('session');
+                if (!(isset($_SESSION['fname']) && $_SESSION['fname'] != '')) {
+                    echo '<li><a href="' . base_url() . 'login">LOG IN</a></li>'
+                    . '<li><a href="' . base_url() . 'users/register">SIGN UP</a></li>';
+                } else {
+                    echo '<li><a href="' . base_url() . 'users/profile">PROFILE</a></li>'
+                    . '<li><a href="' . base_url() . 'users/logout">LOG OUT</a></li>';
+                }
+                ?>
+
+
             </ul>
         </div>
     </div>

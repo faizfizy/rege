@@ -22,7 +22,7 @@
                     $tmpl = array('table_open' => '<table border="1" class="table table-striped table-hover">');
                     $this->table->set_template($tmpl);
 
-                    $this->table->set_heading('Item Name', 'Compare');
+                    $this->table->set_heading('Item Name', 'Compare Prices');
                     echo $this->table->generate($item_list);
                     ?>
 
