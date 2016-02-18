@@ -109,12 +109,21 @@ class Users extends CI_Controller {
                 //check if username and password is correct
                 $usr_result = $this->login_model->get_user($username, $password);
                 if ($usr_result > 0) { //active user record is present
+                    
+                    $this->load->model('user_model');
+                    $user = new User_model();
+                    $user = $this->user_model->get_user($username);
+                   
+                    //echo "<pre>";$v = $user[0]->fname;print_r($v);echo gettype($v);die;
+
                     //set the session variables
                     $sessiondata = array(
-                        'fname' => $username,
+                        'user_id' => $user[0]->id,
+                        'username' => $user[0]->username,
                         'loginuser' => TRUE
                     );
                     $this->session->set_userdata($sessiondata);
+
                     redirect(base_url());
                 } else {
                     $this->session->set_flashdata('msg', '<div class="alert alert-danger text-center">Invalid username and password!</div>');

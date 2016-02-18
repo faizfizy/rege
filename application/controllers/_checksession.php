@@ -1,6 +1,5 @@
 <?php
-$this->load->library('session');
-if (!(isset($_SESSION['fname']) && $_SESSION['fname'] != '')) {
+if (!(isset($_SESSION['user_id']) && $_SESSION['user_id'] != '')) {
     header("location:http://rege.evernue.local/login");
     exit();
 }

@@ -5,9 +5,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 class Items extends CI_Controller {
 
     public function index() {
-        
-        $this->load->library('session');
-        //echo "<pre>";print_r($this->session->userdata());print_r($this->input->user_agent());die;
+        //echo "<pre>";print_r($this->session->username);die;
         
         $this->load->library('table');
 
@@ -80,7 +78,7 @@ class Items extends CI_Controller {
             $item->save();
 
             //table price
-            $price->user_id = 1; // Preset for testing purpose
+            $price->user_id = $this->session->user_id; // Preset for testing purpose
             $price->item_id = $this->db->insert_id(); // Can't brain the logic %$#@!
             $price->shop_id = $this->input->post('shop'); //Same
             $price->price = $this->input->post('price');
@@ -127,7 +125,7 @@ class Items extends CI_Controller {
         $user_list = array();
         foreach ($users as $u_id => $user) {
             $user_list[] = array(
-                $user->fname,
+                $user->username,
             );
         }
 
@@ -228,7 +226,7 @@ class Items extends CI_Controller {
             $price->price = $this->input->post('price');
             $price->datetime = date('Y-m-d H:i:s');
             $price->shop_id = $shop_id;
-            $price->user_id = 1;
+            $price->user_id = $this->session->user_id;;
             $price->item_id = $i_id;
             $price->save();
 
@@ -280,7 +278,7 @@ class Items extends CI_Controller {
         } else {
 
             $price = new Price_model();
-            $price->user_id = 1; //preset test
+            $price->user_id = $this->session->user_id;; //preset test
             $price->item_id = $i_id;
             $price->shop_id = $this->input->post('shop');
             $price->price = $this->input->post('price');
@@ -310,7 +308,7 @@ class Items extends CI_Controller {
         $user_list = array();
         foreach ($users as $u_id => $user) {
             $user_list[] = array(
-                $user->fname,
+                $user->username,
             );
         }
 

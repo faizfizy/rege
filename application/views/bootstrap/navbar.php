@@ -17,7 +17,7 @@
                 <li><a href="<?= base_url(); ?>items/add">ADD ITEM</a></li>
                 <?php
                 $this->load->library('session');
-                if (!(isset($_SESSION['fname']) && $_SESSION['fname'] != '')) {
+                if (!(isset($_SESSION['user_id']) && $_SESSION['user_id'] != '')) {
                     echo '<li><a href="' . base_url() . 'users/login">LOG IN</a></li>'
                     . '<li><a href="' . base_url() . 'users/register">SIGN UP</a></li>';
                 } else {
