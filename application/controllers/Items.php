@@ -5,6 +5,10 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 class Items extends CI_Controller {
 
     public function index() {
+        
+        $this->load->library('session');
+        //echo "<pre>";print_r($this->session->userdata());print_r($this->input->user_agent());die;
+        
         $this->load->library('table');
 
         $this->load->model('item_model');

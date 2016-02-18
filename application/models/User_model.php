@@ -10,6 +10,7 @@ class User_model extends MY_Model {
     public $pass;
     public $fname;
     public $lname;
+    public $username;
     public $img;
     
 }

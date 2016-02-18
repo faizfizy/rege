@@ -18,7 +18,7 @@
                 <?php
                 $this->load->library('session');
                 if (!(isset($_SESSION['fname']) && $_SESSION['fname'] != '')) {
-                    echo '<li><a href="' . base_url() . 'login">LOG IN</a></li>'
+                    echo '<li><a href="' . base_url() . 'users/login">LOG IN</a></li>'
                     . '<li><a href="' . base_url() . 'users/register">SIGN UP</a></li>';
                 } else {
                     echo '<li><a href="' . base_url() . 'users/profile">PROFILE</a></li>'

@@ -23,7 +23,7 @@
                 <div class="col-lg-4 col-sm-4 well">
                     <?php
                     $attributes = array("class" => "form-horizontal", "id" => "loginform", "name" => "loginform");
-                    echo form_open("login/index", $attributes);
+                    echo form_open("", $attributes);
                     ?>
                     <fieldset>
                         <legend>Login</legend>
