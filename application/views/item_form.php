@@ -1,5 +1,3 @@
-<?php echo validation_errors(); ?>
-
 <!DOCTYPE html>
 <html lang="en">
     <head>	
@@ -18,6 +16,8 @@
                 <fieldset>
                     <legend>Record New Item</legend>
 
+                    <?php echo validation_errors(); ?>
+
                     <?php
                     $class_form = array(
                         'class' => 'form-horizontal'
@@ -33,7 +33,6 @@
                     );
                     $class_button_cancel = array(
                         'class' => 'btn btn-primary',
-                        //'href' => '..',
                         'onclick' => "location.href='../'"
                     );
                     ?>
@@ -66,19 +65,6 @@
                         <div class="col-lg-6">
                             <?php
                             echo form_input('qty', set_value('qty'), $class_input);
-
-                            $unit = [
-                                'pack' => 'pack',
-                                'piece' => 'piece',
-                                'L' => 'L',
-                                'mL' => 'mL',
-                                'g' => 'g',
-                                'kg' => 'kg',
-                                'mg' => 'mg',
-                                'lb' => 'lb',
-                                'oz' => 'oz',
-                            ];
-
                             echo form_dropdown('unit', $unit);
                             ?>
                         </div>
@@ -102,6 +88,7 @@
                         </div>
                     </div>
                     <?php echo form_close(); ?>
+
                 </fieldset>
             </div>
         </div>

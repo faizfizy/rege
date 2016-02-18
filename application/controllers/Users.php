@@ -109,18 +109,19 @@ class Users extends CI_Controller {
                 //check if username and password is correct
                 $usr_result = $this->login_model->get_user($username, $password);
                 if ($usr_result > 0) { //active user record is present
-                    
                     $this->load->model('user_model');
                     $user = new User_model();
                     $user = $this->user_model->get_user($username);
-                   
-                    //echo "<pre>";$v = $user[0]->fname;print_r($v);echo gettype($v);die;
 
+                    //echo "<pre>";$v = $user[0]->fname;print_r($v);echo gettype($v);die;
                     //set the session variables
                     $sessiondata = array(
                         'user_id' => $user[0]->id,
                         'username' => $user[0]->username,
-                        'loginuser' => TRUE
+                        'fname' => $user[0]->fname,
+                        'lname' => $user[0]->lname,
+                        'email' => $user[0]->email,
+                        'loginuser' => TRUE,
                     );
                     $this->session->set_userdata($sessiondata);
 
@@ -133,6 +134,22 @@ class Users extends CI_Controller {
                 redirect('users/login');
             }
         }
+    }
+
+    public function profile() {
+
+        $this->load->helper('form');
+
+        $user_detail = [
+            'username' => $this->session->username,
+            'fname' => $this->session->fname,
+            'lname' => $this->session->lname,
+            'email' => $this->session->email,
+        ];
+
+        $this->load->view('profile', array(
+            'user_detail' => $user_detail,
+        ));
     }
 
 }

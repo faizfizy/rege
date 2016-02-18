@@ -6,7 +6,7 @@ class Items extends CI_Controller {
 
     public function index() {
         //echo "<pre>";print_r($this->session->username);die;
-        
+
         $this->load->library('table');
 
         $this->load->model('item_model');
@@ -29,18 +29,23 @@ class Items extends CI_Controller {
 
         include '_checksession.php';
 
+        $this->load->library('form_validation');
         $this->load->helper('form');
 
         $this->load->model('shop_model');
         $shops = $this->shop_model->get();
+
         $shop_dropdown = array();
         foreach ($shops as $id => $shop) {
             $shop_dropdown[$id] = $shop->name;
         }
 
-        //echo "<pre>";print_r($shop_dropdown);die;
-        $this->load->library('form_validation');
         $this->form_validation->set_rules(array(
+            array(
+                'field' => 'brand',
+                'label' => 'Brand',
+                'rules' => ''
+            ),
             array(
                 'field' => 'name',
                 'label' => 'Item Name',
@@ -49,65 +54,67 @@ class Items extends CI_Controller {
             array(
                 'field' => 'price',
                 'label' => 'Price',
-                'rules' => 'required|is_numeric'
+                'rules' => 'required|numeric'
             ),
-                //array(
-                //    'field' => 'datetime',
-                //    'label' => 'Price date',
-                //    'rules' => 'required|callback_date_validation'
-                //)
+            array(
+                'field' => 'qty',
+                'label' => 'Quantity',
+                'rules' => 'required|integer'
+            ),
         ));
 
-        $this->form_validation->set_error_delimiters('<div class="alert alert-error">', '</div>');
+        $this->form_validation->set_error_delimiters('<div class="alert alert-danger">'
+                . '<a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>', '</div>');
+
+        $unit = [
+            'pack' => 'pack',
+            'piece' => 'piece',
+            'L' => 'L',
+            'mL' => 'mL',
+            'g' => 'g',
+            'kg' => 'kg',
+            'mg' => 'mg',
+            'lb' => 'lb',
+            'oz' => 'oz',
+        ];
+
         if (!$this->form_validation->run()) {
             $this->load->view('item_form', array(
-                'shop_dropdown' => $shop_dropdown
+                'shop_dropdown' => $shop_dropdown,
+                'unit' => $unit,
             ));
-        } else { //magic happens
-            $this->load->model(array('price_model', 'item_model'));
+        } else {
+            $this->load->model(array('item_model', 'price_model'));
 
-            $price = new Price_model();
             $item = new Item_model();
-
-            //table item
             $item->brand = $this->input->post('brand');
             $item->name = $this->input->post('name');
             $item->qty = $this->input->post('qty');
             $item->unit = $this->input->post('unit');
-
             $item->save();
 
-            //table price
-            $price->user_id = $this->session->user_id; // Preset for testing purpose
+            $price = new Price_model();
+            $price->user_id = $this->session->user_id;
             $price->item_id = $this->db->insert_id(); // Can't brain the logic %$#@!
             $price->shop_id = $this->input->post('shop'); //Same
             $price->price = $this->input->post('price');
             $price->datetime = date('Y-m-d H:i:s');
-
             $price->save();
 
             $this->load->view('item_form_success', array(
-                'item' => $item
+                'item' => $item,
             ));
         }
     }
 
-    public function date_validation($input) {
-        //$test_date = explode('-', $input);
-        //if (!@checkdate($test_date[1], $test_date[2], $test_date[0])) {
-        //    $this->form_validation->set_message('date_validation', 'The %s must be in YYYY-MM-DD format.');
-        //   return FALSE;
-        //}
-        return TRUE;
-    }
-
     public function view($id) {
-        $this->load->helper('html');
+
         $this->load->library('table');
+        $this->load->helper('html');
 
         $this->load->model(array('price_model', 'item_model', 'shop_model', 'user_model'));
         //$lists = $this->Price->get_price_details($id);
-        //echo '<pre>';print_r($lists);exit;
+        //echo '<pre>';print_r($lists);exit; coded by Mr. Hanafiah
         $item = new Item_model();
         $item->load($id);
 
@@ -226,7 +233,8 @@ class Items extends CI_Controller {
             $price->price = $this->input->post('price');
             $price->datetime = date('Y-m-d H:i:s');
             $price->shop_id = $shop_id;
-            $price->user_id = $this->session->user_id;;
+            $price->user_id = $this->session->user_id;
+            ;
             $price->item_id = $i_id;
             $price->save();
 
@@ -278,7 +286,7 @@ class Items extends CI_Controller {
         } else {
 
             $price = new Price_model();
-            $price->user_id = $this->session->user_id;; //preset test
+            $price->user_id = $this->session->user_id;
             $price->item_id = $i_id;
             $price->shop_id = $this->input->post('shop');
             $price->price = $this->input->post('price');
@@ -316,7 +324,6 @@ class Items extends CI_Controller {
         $item->load($i_id);
 
         $prices = $this->price_model->get_history($i_id, $s_name);
-
 
         $shop = new Shop_model();
         $shop->load($prices[0]->shop_id);

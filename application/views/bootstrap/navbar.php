@@ -8,7 +8,7 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" href="<?= base_url(); ?>items">REGE</a>
+            <a class="navbar-brand" href="<?= base_url(); ?>">REGE</a>
         </div>
         <!-- menu section -->
         <div class="collapse navbar-collapse navbar-ex1-collapse">

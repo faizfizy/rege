@@ -5,17 +5,16 @@
         <script src="<?= base_url(); ?>js/jquery.js"></script>
         <script src="<?= base_url(); ?>js/bootstrap.min.js"></script>
     </head>
-    
+
     <?php
     include('bootstrap/navbar.php');
     ?>
-    
+
     <body>
         <div class="container">
             <div class="row">
                 <div class="col-md-12">
 
-                    
                     <h2>Item List</h2>
 
                     <?php
@@ -28,6 +27,7 @@
 
                     <h3>Didn't manage to find the item? Help yourself and others by contributing the price information in REGE!</h3>
                     <h4>Sign up now and spread the good deed!</h4>
+
                 </div>
             </div>
         </div>
