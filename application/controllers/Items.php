@@ -108,12 +108,20 @@ class Items extends CI_Controller {
     }
 
     public function view($id) {
+        
+        
 
         $this->load->library('table');
         $this->load->helper('html');
 
         $this->load->model(array('price_model', 'item_model'));
         $lists = $this->price_model->single_item($id); //custom SQL
+        
+        $item_exist = $this->item_model->get_item_id($id);
+        if ($item_exist < 1) {
+            show_404();
+            die;
+        }
 
         $item = new Item_model();
         $item->load($id);
@@ -148,7 +156,7 @@ class Items extends CI_Controller {
         $prices = $this->price_model->update_price($p_id);
         $price->load($p_id);
         $price->delete();
-        
+
         $item = new Item_model();
         $item->load($prices[0]->item_id);
 
@@ -271,7 +279,10 @@ class Items extends CI_Controller {
         $item->load($i_id);
 
         $prices = $this->price_model->get_history($i_id, $s_id);
-        //if (!($prices)) {show_404();die;}
+        if (!($prices)) {
+            redirect('items/view/' . $i_id);
+            die;
+        }
 
         $price_list = array();
         foreach ($prices as $p_id => $price) {
