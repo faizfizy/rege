@@ -1,5 +1,3 @@
-<?php //echo validation_errors();    ?>
-
 <!DOCTYPE html>
 <html lang="en">
     <head>	
@@ -25,6 +23,8 @@
                         <?php echo html_escape("(" . $item->qty . " " . $item->unit . ")"); ?>
                     </h4>
 
+                    <?php echo validation_errors(); ?>
+
                     <?php
                     $class_form = array(
                         'class' => 'form-horizontal'
@@ -41,7 +41,7 @@
                     $class_button_cancel = array(
                         'class' => 'btn btn-primary',
                         //'href' => '..',
-                        'onclick' => "location.href='". base_url() . "items/view/" . $item->id . "'"
+                        'onclick' => "location.href='" . base_url() . "items/view/" . $item->id . "'"
                     );
                     ?>
 

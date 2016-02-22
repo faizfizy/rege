@@ -127,7 +127,7 @@ class Users extends CI_Controller {
 
                     redirect(base_url());
                 } else {
-                    $this->session->set_flashdata('msg', '<div class="alert alert-danger text-center">Invalid username and password!</div>');
+                    $this->session->set_flashdata('msg', '<div class="alert alert-danger text-center">Invalid username or password!</div>');
                     redirect('users/login');
                 }
             } else {

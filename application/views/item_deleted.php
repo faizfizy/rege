@@ -19,9 +19,9 @@
                         Price for
                         <?php echo html_escape($item->brand . " " . $item->name); ?>
                         at
-                        <?php echo html_escape($s_name); ?>
+                        <?php echo html_escape($prices[0]->shop_name); ?>
                         is successfully deleted.
-                        <?php echo anchor('items/history/' . $item->id ."/" . $s_name, 'Back to History Page'); ?>
+                        <?php echo anchor('items/history/' . $item->id ."/" . $prices[0]->shop_id, 'Back to History Page'); ?>
                     </div>
 
                 </div>

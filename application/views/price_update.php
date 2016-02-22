@@ -1,5 +1,3 @@
-<?php //echo validation_errors();        ?>
-
 <!DOCTYPE html>
 <html lang="en">
     <head>	
@@ -19,11 +17,13 @@
                     <legend>Change Price</legend>
 
                     <h4>     
-                        <?php echo html_escape($item->brand); ?>
+                        <?php echo html_escape($price[0]->brand); ?>
                         <br />
-                        <?php echo html_escape($item->name); ?>
-                        <?php echo html_escape("(" . $item->qty . " " . $item->unit . ")"); ?>
+                        <?php echo html_escape($price[0]->item_name); ?>
+                        <?php echo html_escape("(" . $price[0]->qty . " " . $price[0]->unit . ")"); ?>
                     </h4>
+
+                    <?php echo validation_errors(); ?>
 
                     <?php
                     $class_form = array(
@@ -41,7 +41,7 @@
                     $class_button_cancel = array(
                         'class' => 'btn btn-primary',
                         //'href' => '..',
-                        'onclick' => "location.href='". base_url() . "items/view/" . $item->id . "'"
+                        'onclick' => "location.href='" . base_url() . "items/view/" . $price[0]->item_id . "'"
                     );
                     ?>
 
@@ -49,7 +49,7 @@
                     <div class="form-group">    
                         <?php echo form_label('Shop: ', 'shop', $class_label); ?>
                         <div class="col-lg-6">
-                            <?php echo form_label($s_name, 'shop_name', $class_input); ?>
+                            <?php echo form_label($price[0]->shop_name, 'shop_name', $class_input); ?>
                         </div>
                     </div>
                     <div class="form-group">

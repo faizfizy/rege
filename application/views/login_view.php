@@ -54,7 +54,7 @@
                         <div class="form-group">
                             <div class="col-lg-12 col-sm-12 text-center">
                                 <input id="btn_login" name="btn_login" type="submit" class="btn btn-default" value="Login" />
-                                <input id="btn_cancel" name="btn_cancel" type="reset" class="btn btn-default" value="Cancel" />
+                                <input id="btn_cancel" name="btn_cancel" type="reset" class="btn btn-default" value="Reset" />
                             </div>
                         </div>
                     </fieldset>

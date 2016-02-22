@@ -15,14 +15,14 @@
             <div class="row">
                 <div class="col-md-12">
 
-                    <h2>History at <?php echo html_escape($shop->name); ?></h2>
-                    
+                    <h2>History at <?php echo html_escape($price->shop_name); ?></h2>
+
                     <h4>
                         <a href='<?= base_url(); ?>items/view/<?= $item->id ?>'>
-                        <?php echo html_escape($item->brand); ?>
-                        <br />
-                        <?php echo html_escape($item->name); ?>
-                        <?php echo html_escape("(" . $item->qty . " " . $item->unit . ")"); ?>
+                            <?php echo html_escape($item->brand); ?>
+                            <br />
+                            <?php echo html_escape($item->name); ?>
+                            <?php echo html_escape("(" . $item->qty . " " . $item->unit . ")"); ?>
                         </a>
                     </h4>
 

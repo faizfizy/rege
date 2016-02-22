@@ -112,56 +112,26 @@ class Items extends CI_Controller {
         $this->load->library('table');
         $this->load->helper('html');
 
-        $this->load->model(array('price_model', 'item_model', 'shop_model', 'user_model'));
-        //$lists = $this->Price->get_price_details($id);
-        //echo '<pre>';print_r($lists);exit; coded by Mr. Hanafiah
+        $this->load->model(array('price_model', 'item_model'));
+        $lists = $this->price_model->single_item($id); //custom SQL
+
         $item = new Item_model();
         $item->load($id);
 
-        $shop = new Shop_model();
-        $shops = $this->shop_model->get();
-        $shop_list = array();
-        foreach ($shops as $s_id => $shop) {
-            $shop_list[] = array(
-                $shop->name,
-            );
-        }
-
-        $user = new User_model();
-        $users = $this->user_model->get();
-        $user_list = array();
-        foreach ($users as $u_id => $user) {
-            $user_list[] = array(
-                $user->username,
-            );
-        }
-
-        $price = new Price_model();
-        $prices = $this->price_model->get();
-
         $price_list = array();
-        foreach ($prices as $p_id => $price) {
+        foreach ($lists as $p_id => $price) {
             if ($price->item_id == $id) {
 
                 $price_list[] = array(
-                    $shop_list[($price->shop_id) - 1][0],
+                    $price->name,
                     $price->price,
                     $price->datetime,
-                    $user_list[($price->user_id) - 1][0],
-                    anchor('items/update/' . $item->id . '/' . $price->id . '/' . $shop_list[($price->shop_id) - 1][0], 'Change Price') . " | " .
-                    anchor('items/history/' . $item->id . '/' . $shop_list[($price->shop_id) - 1][0], 'View History')
+                    $price->username,
+                    anchor('items/update/' . $price->id, 'Change Price') . " | " .
+                    anchor('items/history/' . $item->id . '/' . $price->shop_id, 'View History')
                 );
             }
         }
-
-        //copy paste from SO - to remove older reocord of price while maintaing in db
-        $newArr = array();
-        foreach ($price_list as $val) {
-            $newArr[$val[0]] = $val;
-        }
-        $price_list = array_values($newArr);
-
-        //echo "<pre>";$v = $array;print_r($v);echo gettype($v);die;
 
         $this->load->view('item', array(
             'item' => $item,
@@ -169,78 +139,68 @@ class Items extends CI_Controller {
         ));
     }
 
-    public function delete($i_id, $p_id, $s_name) {
+    public function delete($p_id) {
 
         include '_checksession.php';
 
         $this->load->model(array('price_model', 'item_model'));
         $price = new Price_model();
+        $prices = $this->price_model->update_price($p_id);
         $price->load($p_id);
         $price->delete();
-
+        
         $item = new Item_model();
-        $item->load($i_id);
-
+        $item->load($prices[0]->item_id);
 
         $this->load->view('item_deleted', array(
             'item' => $item,
-            's_name' => $s_name
+            'prices' => $prices
         ));
     }
 
-    public function update($i_id, $p_id, $s_name) {
+    public function update($p_id) {
 
         include '_checksession.php';
 
         $this->load->helper('form');
-        $this->load->model(array('price_model', 'item_model'));
+        $this->load->model(array('price_model'));
 
-        $item = new Item_model();
-        $item->load($i_id);
-
-        $price = new Price_model();
-
+        $price = $this->price_model->update_price($p_id);
 
         $this->load->library('form_validation');
         $this->form_validation->set_rules(array(
-            //array(
-            //    'field' => 'name',
-            //    'label' => 'Item Name',
-            //    'rules' => 'required'
-            //),
             array(
                 'field' => 'price',
                 'label' => 'Price',
-                'rules' => 'required|is_numeric'
+                'rules' => 'required|numeric'
             ),
         ));
 
-        $this->form_validation->set_error_delimiters('<div class="alert alert-error">', '</div>');
+        $this->form_validation->set_error_delimiters('<div class="alert alert-danger">'
+                . '<a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>', '</div>');
 
         if (!$this->form_validation->run()) {
             $this->load->view('price_update', array(
-                'item' => $item,
-                's_name' => $s_name
-                    //'shop_dropdown' => $shop_dropdown
+                'price' => $price,
             ));
         } else {
 
-            $price->load($p_id);
-            $shop_id = $price->shop_id;
-            $price = new Price_model();
-            //echo "<pre>";$v = $price;print_r($v);echo gettype($v);die;
+            $shop_id = $price[0]->shop_id;
+            $item_id = $price[0]->item_id;
 
+            $price = new Price_model();
             $price->price = $this->input->post('price');
             $price->datetime = date('Y-m-d H:i:s');
             $price->shop_id = $shop_id;
             $price->user_id = $this->session->user_id;
-            ;
-            $price->item_id = $i_id;
+
+            $price->item_id = $item_id;
             $price->save();
 
+            $price = $this->price_model->update_price($p_id);
+
             $this->load->view('price_updated', array(
-                'item' => $item,
-                's_name' => $s_name
+                'price' => $price,
             ));
         }
     }
@@ -264,19 +224,15 @@ class Items extends CI_Controller {
 
         $this->load->library('form_validation');
         $this->form_validation->set_rules(array(
-            //array(
-            //    'field' => 'name',
-            //    'label' => 'Item Name',
-            //    'rules' => 'required'
-            //),
             array(
                 'field' => 'price',
                 'label' => 'Price',
-                'rules' => 'required|is_numeric'
+                'rules' => 'required|numeric'
             ),
         ));
 
-        $this->form_validation->set_error_delimiters('<div class="alert alert-error">', '</div>');
+        $this->form_validation->set_error_delimiters('<div class="alert alert-danger">'
+                . '<a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>', '</div>');
 
         if (!$this->form_validation->run()) {
             $this->load->view('price_add', array(
@@ -304,45 +260,32 @@ class Items extends CI_Controller {
         }
     }
 
-    public function history($i_id, $s_name) {
+    public function history($i_id, $s_id) {
 
         $this->load->helper('html');
         $this->load->library('table');
 
-        $this->load->model(array('price_model', 'item_model', 'user_model', 'shop_model'));
-
-        $user = new User_model();
-        $users = $this->user_model->get();
-        $user_list = array();
-        foreach ($users as $u_id => $user) {
-            $user_list[] = array(
-                $user->username,
-            );
-        }
+        $this->load->model(array('price_model', 'item_model'));
 
         $item = new Item_model();
         $item->load($i_id);
 
-        $prices = $this->price_model->get_history($i_id, $s_name);
-
-        $shop = new Shop_model();
-        $shop->load($prices[0]->shop_id);
-        //echo '<pre>';print_r($shop);exit;
+        $prices = $this->price_model->get_history($i_id, $s_id);
+        //if (!($prices)) {show_404();die;}
 
         $price_list = array();
         foreach ($prices as $p_id => $price) {
             $price_list[] = array(
                 $price->datetime,
                 $price->price,
-                $user_list[($price->user_id) - 1][0],
-                anchor('items/delete/' . $item->id . '/' . $price->id . '/' . $price->name, 'Delete Price')
+                $price->username,
+                anchor('items/delete/' . $price->id, 'Delete Price')
             );
         }
-        //echo "<pre>";$v = $array;print_r($v);echo gettype($v);die;
 
         $this->load->view('history', array(
             'item' => $item,
-            'shop' => $shop,
+            'price' => $price,
             'price_list' => $price_list
         ));
     }

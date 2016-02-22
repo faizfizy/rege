@@ -17,11 +17,11 @@
 
                     <div class="alert alert-success">
                         Price for
-                        <?php echo html_escape($item->brand . " " . $item->name); ?>
+                        <?php echo html_escape($price[0]->brand . " " . $price[0]->item_name); ?>
                         at
-                        <?php echo html_escape($s_name); ?>
+                        <?php echo html_escape($price[0]->shop_name); ?>
                         is successfully updated.
-                        <?php echo anchor('items/view/' . $item->id, 'Back to Item Page'); ?>
+                        <?php echo anchor('items/view/' . $price[0]->item_id, 'Back to Item Page'); ?>
                     </div>
 
                 </div>
