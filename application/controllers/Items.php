@@ -108,15 +108,13 @@ class Items extends CI_Controller {
     }
 
     public function view($id) {
-        
-        
 
         $this->load->library('table');
         $this->load->helper('html');
 
         $this->load->model(array('price_model', 'item_model'));
         $lists = $this->price_model->single_item($id); //custom SQL
-        
+
         $item_exist = $this->item_model->get_item_id($id);
         if ($item_exist < 1) {
             show_404();
