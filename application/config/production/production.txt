@@ -1,0 +1,10 @@
+../application/config/config.php
+$config['base_url'] = 'http://rege.evernue.com/';
+
+../application/config/database.php
+	'username' => 'intern_faizfizy',
+	'password' => 'faizfizy',
+	'database' => 'intern_regedb',
+----------------------------------------------------
+..index.php
+	define('ENVIRONMENT', isset($_SERVER['CI_ENV']) ? $_SERVER['CI_ENV'] : 'development');
