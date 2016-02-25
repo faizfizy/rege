@@ -131,7 +131,7 @@ class Items extends CI_Controller {
                 $price_list[] = array(
                     $price->name,
                     $price->price,
-                    $price->datetime,
+                    date_format(new DateTime($price->datetime),'d/m/Y, h:i A'),
                     $price->username,
                     anchor('items/update/' . $price->id, 'Change Price') . " | " .
                     anchor('items/history/' . $item->id . '/' . $price->shop_id, 'View History')
@@ -285,7 +285,7 @@ class Items extends CI_Controller {
         $price_list = array();
         foreach ($prices as $p_id => $price) {
             $price_list[] = array(
-                $price->datetime,
+                date_format(new DateTime($price->datetime),'d/m/Y, h:i A'),
                 $price->price,
                 $price->username,
                 anchor('items/delete/' . $price->id, 'Delete Price')
