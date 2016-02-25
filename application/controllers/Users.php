@@ -137,6 +137,8 @@ class Users extends CI_Controller {
     }
 
     public function profile() {
+        
+        include '_checksession.php';
 
         $this->load->helper('form');
 
