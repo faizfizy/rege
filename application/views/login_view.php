@@ -26,7 +26,7 @@
             if ((isset($_SESSION['forbidden']) && $_SESSION['forbidden'] != ''))
                 echo '<div class="alert alert-danger">
                         You need to Log In.</br>
-                        If you do not have an account, <a href="<?= base_url(); ?>users/login">Sign Up</a> here. It only take 1 minutes, I promise.
+                        If you do not have an account, <a href="' . base_url() . 'users/register">Sign Up</a> here. It only take 1 minutes, I promise.
                       </div>';
             $this->session->unset_userdata('forbidden');
             ?>
