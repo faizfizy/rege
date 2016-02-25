@@ -1,6 +1,6 @@
 <?php
 
-$local_servers = array('http://rege.evernue.local');
+$local_servers = array('rege.evernue.local');
 $isLocal = in_array($_SERVER['SERVER_NAME'], $local_servers);
 
 //echo "<pre>";$v = $_SERVER['REQUEST_URI'];print_r($v);echo gettype($v);die;

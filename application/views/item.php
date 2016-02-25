@@ -4,6 +4,8 @@
         <link rel="stylesheet" href="<?= base_url(); ?>css/bootstrap.css">
         <script src="<?= base_url(); ?>js/jquery.js"></script>
         <script src="<?= base_url(); ?>js/bootstrap.min.js"></script>
+        
+        <link rel="stylesheet" href="<?= base_url(); ?>css/sticky-footer-navbar.css">
     </head>
 
     <?php
@@ -37,5 +39,10 @@
                 </div>
             </div>
         </div>
+
+        <?php
+        include('bootstrap/footer.php');
+        ?>
+
     </body>
 </html>

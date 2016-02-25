@@ -1,4 +1,4 @@
-<nav class="navbar navbar-default" role="navigation">
+<nav class="navbar navbar-default navbar-fixed-top">
     <div class="container-fluid">
         <!--header section -->
         <div class="navbar-header">

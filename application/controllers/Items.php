@@ -297,6 +297,7 @@ class Items extends CI_Controller {
             'price' => $price,
             'price_list' => $price_list
         ));
+        
     }
 
 }

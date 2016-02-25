@@ -13,6 +13,8 @@
             });
         </script>
 
+        <link rel="stylesheet" href="<?= base_url(); ?>css/sticky-footer-navbar.css">
+
 
         <script src="https://code.jquery.com/jquery-1.12.0.min.js"></script>
         <script src="https://cdn.datatables.net/1.10.11/js/jquery.dataTables.min.js"></script>
@@ -24,11 +26,12 @@
 
     <body>
         <div class="container">
+            <div class="page-header">
+                <h1><p class="text-center">Find the cheapest prices on groceries.</p>
+                    <p class="text-center"><small>Join other Regters who share prices and saving everyone money.</p></small></h1>
+            </div>
             <div class="row">
                 <div class="col-md-12">
-
-
-                    <h2>Item List</h2>
 
                     <div class="well white">
                         <?php
@@ -42,11 +45,16 @@
                         ?>
                     </div>
 
-                    <h3>Didn't manage to find the item? Help yourself and others by contributing the price information in REGE!</h3>
-                    <h4>Sign up now and spread the good deed!</h4>
+                    <!--<h3>Didn't manage to find the item? Help yourself and others by contributing the price information in REGE!</h3>
+                    <h4>Sign up now and spread the good deed!</h4>-->
 
                 </div>
             </div>
         </div>
+
+        <?php
+        include('bootstrap/footer.php');
+        ?>
+
     </body>
 </html>

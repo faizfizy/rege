@@ -4,6 +4,8 @@
         <link rel="stylesheet" href="<?= base_url(); ?>css/bootstrap.css">
         <script src="<?= base_url(); ?>js/jquery.js"></script>
         <script src="<?= base_url(); ?>js/bootstrap.min.js"></script>
+        
+        <link rel="stylesheet" href="<?= base_url(); ?>css/sticky-footer-navbar.css">
 
         <style type="text/css">
             .colbox {
@@ -68,5 +70,10 @@
         <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
         <!--load bootstrap.js-->
         <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+        
+        <?php
+        include('bootstrap/footer.php');
+        ?>
+        
     </body>
 </html>
