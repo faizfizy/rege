@@ -124,13 +124,15 @@ class Items extends CI_Controller {
         $item = new Item_model();
         $item->load($id);
 
+        $RM = "RM ";
+        
         $price_list = array();
         foreach ($lists as $p_id => $price) {
             if ($price->item_id == $id) {
 
                 $price_list[] = array(
                     $price->name,
-                    $price->price,
+                    $RM . $price->price,
                     date_format(new DateTime($price->datetime),'d/m/Y, h:i A'),
                     $price->username,
                     anchor('items/update/' . $price->id, 'Change Price') . " | " .
@@ -281,12 +283,14 @@ class Items extends CI_Controller {
             redirect('items/view/' . $i_id);
             die;
         }
+        
+        $RM = "RM ";
 
         $price_list = array();
         foreach ($prices as $p_id => $price) {
             $price_list[] = array(
                 date_format(new DateTime($price->datetime),'d/m/Y, h:i A'),
-                $price->price,
+                $RM. $price->price,
                 $price->username,
                 anchor('items/delete/' . $price->id, 'Delete Price')
             );
