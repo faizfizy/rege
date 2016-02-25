@@ -4,7 +4,7 @@
         <link rel="stylesheet" href="<?= base_url(); ?>css/bootstrap.css">
         <script src="<?= base_url(); ?>js/jquery.js"></script>
         <script src="<?= base_url(); ?>js/bootstrap.min.js"></script>
-        
+
         <link rel="stylesheet" href="<?= base_url(); ?>css/sticky-footer-navbar.css">
 
         <style type="text/css">
@@ -14,13 +14,24 @@
             }
         </style>
     </head>
-    
+
     <?php
     include('bootstrap/navbar.php');
     ?>
-    
+
     <body>
         <div class="container">
+
+            <?php
+            if ((isset($_SESSION['forbidden']) && $_SESSION['forbidden'] != ''))
+                echo '<div class="alert alert-danger">
+                        You need to Log In.</br>
+                        If you do not have an account, <a href="<?= base_url(); ?>users/login">Sign Up</a> here. It only take 1 minutes, I promise.
+                      </div>';
+            $this->session->unset_userdata('forbidden');
+            ?>
+
+
             <div class="row">
                 <div class="col-lg-4 col-sm-4 well">
                     <?php
@@ -70,10 +81,10 @@
         <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
         <!--load bootstrap.js-->
         <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
-        
+
         <?php
         include('bootstrap/footer.php');
         ?>
-        
+
     </body>
 </html>
