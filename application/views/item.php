@@ -28,7 +28,7 @@
                 <div class="col-md-12">
 
                     <?php
-                    $tmpl = array('table_open' => '<table border="1" class="table table-striped table-hover">');
+                    $tmpl = array('table_open' => '<table border="1" class="table table-striped">');
                     $this->table->set_template($tmpl);
 
                     $this->table->set_heading('Shop', 'Price', 'Last Updated', 'Contributed by', 'Action');

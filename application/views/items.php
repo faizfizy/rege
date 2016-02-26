@@ -36,7 +36,7 @@
                     <div class="well white">
                         <?php
                         $tmpl = array(
-                            'table_open' => '<table id="example" class="table table-bordered table-striped table-hover tc-table table-primary footable" data-page-size="2">',
+                            'table_open' => '<table id="example" class="table table-bordered table-striped tc-table table-primary">',
                             'table_close' => '</table>');
                         $this->table->set_template($tmpl);
 

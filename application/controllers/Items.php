@@ -5,7 +5,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 class Items extends CI_Controller {
 
     public function val_zero($z) {
-        if ($z < 1) {
+        if ($z < 0.001) {
             $this->form_validation->set_message('val_zero', '{field} must be more than 0.');
             return FALSE;
         } else {
@@ -25,7 +25,9 @@ class Items extends CI_Controller {
         foreach ($items as $id => $item) {
             $item_list[] = array(
                 $item->brand . " " . $item->name . " (" . $item->qty . " " . $item->unit . ")",
-                anchor('items/view/' . $item->id, 'View Prices')
+                anchor('items/view/' . $item->id, '<p class="text-right"><span class="glyphicon glyphicon-search"></span> View Prices</p>', array(
+                    'class' => 'btn btn-primary',
+                ))
             );
         }
 
@@ -141,7 +143,7 @@ class Items extends CI_Controller {
 
                 $price_list[] = array(
                     $price->name,
-                    $RM . number_format((float)$price->price, 2, '.', ''),
+                    $RM . number_format((float) $price->price, 2, '.', ''),
                     date_format(new DateTime($price->datetime), 'd/m/Y, h:i A'),
                     $price->username,
                     anchor('items/update/' . $price->id, 'Change Price') . " | " .
@@ -299,7 +301,7 @@ class Items extends CI_Controller {
         foreach ($prices as $p_id => $price) {
             $price_list[] = array(
                 date_format(new DateTime($price->datetime), 'd/m/Y, h:i A'),
-                $RM . number_format((float)$price->price, 2, '.', ''),
+                $RM . number_format((float) $price->price, 2, '.', ''),
                 $price->username,
                 anchor('items/delete/' . $price->id, 'Delete Price')
             );
