@@ -70,7 +70,7 @@ class Items extends CI_Controller {
             array(
                 'field' => 'qty',
                 'label' => 'Quantity',
-                'rules' => 'required|integer|callback_val_zero|max_length[6]'
+                'rules' => 'required|numeric|callback_val_zero|max_length[6]'
             ),
         ));
 
