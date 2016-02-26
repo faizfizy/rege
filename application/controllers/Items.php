@@ -63,12 +63,12 @@ class Items extends CI_Controller {
             array(
                 'field' => 'price',
                 'label' => 'Price',
-                'rules' => 'required|numeric|callback_val_zero'
+                'rules' => 'required|numeric|callback_val_zero|max_length[6]'
             ),
             array(
                 'field' => 'qty',
                 'label' => 'Quantity',
-                'rules' => 'required|integer|callback_val_zero'
+                'rules' => 'required|integer|callback_val_zero|max_length[6]'
             ),
         ));
 
@@ -141,7 +141,7 @@ class Items extends CI_Controller {
 
                 $price_list[] = array(
                     $price->name,
-                    $RM . $price->price,
+                    $RM . number_format((float)$price->price, 2, '.', ''),
                     date_format(new DateTime($price->datetime), 'd/m/Y, h:i A'),
                     $price->username,
                     anchor('items/update/' . $price->id, 'Change Price') . " | " .
@@ -189,7 +189,7 @@ class Items extends CI_Controller {
             array(
                 'field' => 'price',
                 'label' => 'Price',
-                'rules' => 'required|numeric|callback_val_zero'
+                'rules' => 'required|numeric|callback_val_zero|max_length[6]'
             ),
         ));
 
@@ -244,7 +244,7 @@ class Items extends CI_Controller {
             array(
                 'field' => 'price',
                 'label' => 'Price',
-                'rules' => 'required|numeric|callback_val_zero'
+                'rules' => 'required|numeric|callback_val_zero|max_length[6]'
             ),
         ));
 
@@ -299,7 +299,7 @@ class Items extends CI_Controller {
         foreach ($prices as $p_id => $price) {
             $price_list[] = array(
                 date_format(new DateTime($price->datetime), 'd/m/Y, h:i A'),
-                $RM . $price->price,
+                $RM . number_format((float)$price->price, 2, '.', ''),
                 $price->username,
                 anchor('items/delete/' . $price->id, 'Delete Price')
             );

@@ -36,7 +36,7 @@
                     ?>
 
                     <div>
-                        <?php echo anchor('items/add_price/' . $item->id, 'Add Price at Different Shop'); ?>
+                        <a class="btn btn-primary" href="<?= base_url(); ?>items/add_price/<?php echo $item->id; ?>" role="button">Add Price at Different Shop</a>
                     </div>
 
                 </div>

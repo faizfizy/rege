@@ -44,10 +44,6 @@
                         echo $this->table->generate($item_list);
                         ?>
                     </div>
-
-                    <!--<h3>Didn't manage to find the item? Help yourself and others by contributing the price information in REGE!</h3>
-                    <h4>Sign up now and spread the good deed!</h4>-->
-
                 </div>
             </div>
         </div>
