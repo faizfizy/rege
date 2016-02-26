@@ -4,6 +4,15 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Items extends CI_Controller {
 
+    public function val_zero($z) {
+        if ($z < 1) {
+            $this->form_validation->set_message('val_zero', '{field} must be more than 0.');
+            return FALSE;
+        } else {
+            return TRUE;
+        }
+    }
+
     public function index() {
         //echo "<pre>";print_r($this->session->username);die;
 
@@ -54,12 +63,12 @@ class Items extends CI_Controller {
             array(
                 'field' => 'price',
                 'label' => 'Price',
-                'rules' => 'required|numeric'
+                'rules' => 'required|numeric|callback_val_zero'
             ),
             array(
                 'field' => 'qty',
                 'label' => 'Quantity',
-                'rules' => 'required|integer'
+                'rules' => 'required|integer|callback_val_zero'
             ),
         ));
 
@@ -125,7 +134,7 @@ class Items extends CI_Controller {
         $item->load($id);
 
         $RM = "RM ";
-        
+
         $price_list = array();
         foreach ($lists as $p_id => $price) {
             if ($price->item_id == $id) {
@@ -133,7 +142,7 @@ class Items extends CI_Controller {
                 $price_list[] = array(
                     $price->name,
                     $RM . $price->price,
-                    date_format(new DateTime($price->datetime),'d/m/Y, h:i A'),
+                    date_format(new DateTime($price->datetime), 'd/m/Y, h:i A'),
                     $price->username,
                     anchor('items/update/' . $price->id, 'Change Price') . " | " .
                     anchor('items/history/' . $item->id . '/' . $price->shop_id, 'View History')
@@ -180,7 +189,7 @@ class Items extends CI_Controller {
             array(
                 'field' => 'price',
                 'label' => 'Price',
-                'rules' => 'required|numeric'
+                'rules' => 'required|numeric|callback_val_zero'
             ),
         ));
 
@@ -235,7 +244,7 @@ class Items extends CI_Controller {
             array(
                 'field' => 'price',
                 'label' => 'Price',
-                'rules' => 'required|numeric'
+                'rules' => 'required|numeric|callback_val_zero'
             ),
         ));
 
@@ -283,14 +292,14 @@ class Items extends CI_Controller {
             redirect('items/view/' . $i_id);
             die;
         }
-        
+
         $RM = "RM ";
 
         $price_list = array();
         foreach ($prices as $p_id => $price) {
             $price_list[] = array(
-                date_format(new DateTime($price->datetime),'d/m/Y, h:i A'),
-                $RM. $price->price,
+                date_format(new DateTime($price->datetime), 'd/m/Y, h:i A'),
+                $RM . $price->price,
                 $price->username,
                 anchor('items/delete/' . $price->id, 'Delete Price')
             );
@@ -301,7 +310,6 @@ class Items extends CI_Controller {
             'price' => $price,
             'price_list' => $price_list
         ));
-        
     }
 
 }
