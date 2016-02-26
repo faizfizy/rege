@@ -36,11 +36,24 @@
                     <div class="well white">
                         <?php
                         $tmpl = array(
-                            'table_open' => '<table id="example" class="table table-bordered table-striped tc-table table-primary">',
+                            'table_open' => '<table id="example" class="table table-striped tc-table table-primary">',
                             'table_close' => '</table>');
                         $this->table->set_template($tmpl);
 
                         $this->table->set_heading('Item Name', 'Compare Prices');
+                        ?>
+                               
+                        <style>
+                        td{
+                        border:0px solid #000;
+                        }
+
+                        tr td:last-child{
+                        width:30%;
+                        white-space:nowrap;
+                        text-align: center;
+                        }
+                        </style><?php
                         echo $this->table->generate($item_list);
                         ?>
                     </div>

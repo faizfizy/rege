@@ -25,7 +25,7 @@ class Items extends CI_Controller {
         foreach ($items as $id => $item) {
             $item_list[] = array(
                 $item->brand . " " . $item->name . " (" . $item->qty . " " . $item->unit . ")",
-                anchor('items/view/' . $item->id, '<p class="text-right"><span class="glyphicon glyphicon-search"></span> View Prices</p>', array(
+                anchor('items/view/' . $item->id, '<span class="glyphicon glyphicon-search"></span> View Prices', array(
                     'class' => 'btn btn-primary',
                 ))
             );
